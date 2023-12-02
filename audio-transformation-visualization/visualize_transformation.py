@@ -29,11 +29,11 @@ def create_pipeline(transformations: list):
 
 
 
-def create_audio_player(audio_data, sample_rate):
-    virtualfile = io.BytesIO()
-    wavfile.write(virtualfile, rate=sample_rate, data=audio_data.astype(np.int16))
-    #wave.write(virtualfile, rate=sample_rate, data=audio_data.astype(np.int16))
-    return virtualfile
+# def create_audio_player(audio_data, sample_rate):
+#     virtualfile = io.BytesIO()
+#     wavfile.write(virtualfile, rate=sample_rate, data=audio_data.astype(np.int16))
+#     #wave.write(virtualfile, rate=sample_rate, data=audio_data.astype(np.int16))
+#     return virtualfile
 
 
 @st.cache
@@ -96,19 +96,15 @@ def plot_audio_transformations(y_list, sr_list, pipeline: audiomentations.Compos
                 unsafe_allow_html=True,
             )
             st.pyplot(plot_transformation(y, sr, "Original"))
+        spacing()
         with col2:
             st.markdown(
                 f"<h4 style='text-align: center; color: black;'>Wave plot</h4>",
                 unsafe_allow_html=True,
             )
             st.pyplot(plot_wave(y, sr))
-        with col3:
-            st.markdown(
-                f"<h4 style='text-align: center; color: black;'>Audio</h4>",
-                unsafe_allow_html=True,
-            )
-            spacing()
-            st.audio(create_audio_player(y, sr))
+        
+            # st.audio(create_audio_player(y, sr))
         st.markdown("---")
 
         for col_index, individual_transformation in enumerate(pipeline.transforms):
@@ -127,21 +123,17 @@ def plot_audio_transformations(y_list, sr_list, pipeline: audiomentations.Compos
                     unsafe_allow_html=True,
                 )
                 st.pyplot(fig)
+            spacing()
+
             with col2:
                 st.markdown(
                     f"<h4 style='text-align: center; color: black;'>Wave plot</h4>",
                     unsafe_allow_html=True,
                 )
                 st.pyplot(plot_wave(modified, sr))
-                spacing()
 
-            with col3:
-                st.markdown(
-                    f"<h4 style='text-align: center; color: black;'>Audio</h4>",
-                    unsafe_allow_html=True,
-                )
-                spacing()
-                st.audio(create_audio_player(modified, sr))
+           
+                # st.audio(create_audio_player(modified, sr))
             st.markdown("---")
             plt.close("all")
 
